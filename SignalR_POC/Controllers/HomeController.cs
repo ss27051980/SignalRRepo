@@ -1,0 +1,39 @@
+﻿using SignalR_POC.Component;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace SignalR_POC.Controllers
+{
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public JsonResult GetNotifications()
+        {
+            var registerdTime = Session["LastUpdated"] != null ? Convert.ToDateTime(Session["LastUpdated"]) : DateTime.Now;
+            var notifier = new NotificationComp();
+            var result = notifier.GetLikes(registerdTime);
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+    }
+}
